@@ -17,7 +17,7 @@ Type Min(Type a, Type b)
 
 template<>	//テンプレ解除
 
-char Min<char>(char a, char b)
+char Min<char>(char a, char b)	//char型のみ個別対応
 {
 	return printf("数字以外は代入できません\n");
 }
