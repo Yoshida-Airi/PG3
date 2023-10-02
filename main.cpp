@@ -35,6 +35,5 @@ int main()
 	//char型
 	Min<char>('a', 'b');
 
-
 	return 0;
 }
