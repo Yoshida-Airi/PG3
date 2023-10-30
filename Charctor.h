@@ -4,7 +4,7 @@ class Charctor
 public:
 	Charctor();
 
-	~Charctor();
+	virtual ~Charctor();
 
 	virtual void Attack();
 

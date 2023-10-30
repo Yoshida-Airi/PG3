@@ -2,16 +2,15 @@
 #include"Charctor.h"
 #include<stdio.h>
 
-class Warrior :public Charctor
+class Wizard :public Charctor
 {
 public:
-	Warrior();
+	Wizard();
 
-	~Warrior();
+	~Wizard();
 
 	void Attack()override;
 
 private:
 
 };
-
