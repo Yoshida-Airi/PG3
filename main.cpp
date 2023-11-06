@@ -1,13 +1,12 @@
 #include<stdio.h>
-
+#include<iostream>
+#include<windows.h>
 
 int main(void)
 {
-	char playerAnswer[10];
-
-	printf("丁(奇数)か半(偶数)かを入力してください\n");
-	scanf_s("%s", playerAnswer, 10);
-	printf("%s", playerAnswer);
+	SetConsoleOutputCP(65001);
+	char str[] = "あいうえお";
+	printf("%s", str);
 
 	return 0;
 }
