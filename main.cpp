@@ -47,24 +47,9 @@ void playGame()
     }
 }
 
-// コールバック関数 出目とユーザーの選択を比較し、正誤を返す
-bool checkGuess(int diceResult, int time, int userChoice)
-{
-    std::this_thread::sleep_for(std::chrono::seconds(time)); // 3秒待つ
-
-    if ((diceResult % 2 == 1 && userChoice == 1) || (diceResult % 2 == 0 && userChoice == 2)) {
-        return true; // 正解
-    }
-    else {
-        return false; // 不正解
-    }
-}
-
-
 int main(void)
 {
 	SetConsoleOutputCP(65001);
     playGame();
-
 	return 0;
 }
