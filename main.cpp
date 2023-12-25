@@ -7,42 +7,6 @@
 int main(void)
 {
 	SetConsoleOutputCP(65001);
-	char str[] = "あいうえお";
-	
-	//char station[30][20] =
-	//{
-	//	"Tokyo",
-	//	"Kanda",
-	//	"Akihabara",
-	//	"Okachimati",
-	//	"Ueno",
-	//	"Uguisudani",
-	//	"Nippori",
-	//	/*"Nishi-Nippori",*/
-	//	"Tabata",
-	//	"Komagome",
-	//	"Sugamo",
-	//	"Otsuka",
-	//	"Ikebukuro",
-	//	"Mejiro",
-	//	"Takadanobaba",
-	//	"Shin-Okubo",
-	//	"Shinjuku",
-	//	"Yoyogi",
-	//	"Harajuku",
-	//	"Shibuya",
-	//	"Ebisu",
-	//	"Meguro",
-	//	"Gotanda",
-	//	"Osaki",
-	//	"Shinagawa",
-	///*	"Takanawa-Gateway",*/
-	//	"Tamachi",
-	//	"Hamamatsucho",
-	//	"Shimbashi",
-	//	"Yurakucho"
-	//};
-	
 
 	std::list<const char*>YamanoteLineStation =
 	{
@@ -107,7 +71,6 @@ int main(void)
 			++itr;
 		}
 	}
-
 
 	//2023年の駅を表示
 	std::cout << "\nYamanoteLineStation2023" << std::endl;
