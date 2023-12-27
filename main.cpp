@@ -1,14 +1,22 @@
-#include<stdio.h>
-#include<iostream>
-#include<windows.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
-#include<vector>
-#include<algorithm>
+// 文字列から指定したパターンの後の四桁の数値を抽出する関数
+std::string extractFourDigitNumberAfterPattern(const char* str, const char* pattern) {
+	std::string s(str);
+	std::size_t found = s.find(pattern);
 
-int main(void)
-{
-	SetConsoleOutputCP(65001);
+	if (found != std::string::npos) {
+		// パターンの後にある四桁を抽出
+		return s.substr(found + strlen(pattern), 4);
+	}
+	else {
+		return ""; // パターンが見つからなかった場合は空文字列を返す
+	}
+}
 
+int main() {
 	std::vector<const char*>number =
 	{
 		"k022g0108@g.neec.ac.jp", "k022g0045@g.neec.ac.jp", "k022g0007@g.neec.ac.jp", "k022g0015@g.neec.ac.jp", "k022g0028@g.neec.ac.jp",
@@ -36,22 +44,34 @@ int main(void)
 		"k022g0031@g.neec.ac.jp", "k022g0076@g.neec.ac.jp", "k022g0002@g.neec.ac.jp", "k022g0090@g.neec.ac.jp", "k022g0074@g.neec.ac.jp",
 		"k022g0012@g.neec.ac.jp", "k022g0001@g.neec.ac.jp"
 	};
+	// 検索するパターン
+	const char* targetPattern = "k022g";
 
-	std::vector<const char*>::iterator itr;
+	// 数値を格納するベクター
+	std::vector<std::string> extractedNumbers;
 
-	itr = std::find(number.begin(), number.end(), 3);
-	if (itr != number.end())
-	{
-		std::cout << *itr << std::endl;
+	// 各要素から指定したパターンの後の四桁の数値を抽出
+	for (const char* email : number) {
+		std::string extractedNumber = extractFourDigitNumberAfterPattern(email, targetPattern);
+
+		if (!extractedNumber.empty()) {
+			extractedNumbers.push_back(extractedNumber);
+		}
 	}
 
-	/*sort(number.begin(), number.end());*/
+	// 数値を昇順にソート
+	std::sort(extractedNumbers.begin(), extractedNumbers.end());
 
+	// ソートされた数値と元のメールアドレスを表示
+	for (const std::string& num : extractedNumbers) {
+		auto it = std::find_if(number.begin(), number.end(),
+			[num, targetPattern](const char* email) {
+				return extractFourDigitNumberAfterPattern(email, targetPattern) == num;
+			});
 
-	////出力
-	//for (const auto& email : number) {
-	//	std::cout << email << std::endl;
-	//}
-
-	return 0;
+		if (it != number.end()) {
+			std::cout << *it << std::endl;
+		}
+	}
+    return 0;
 }
