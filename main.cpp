@@ -2,18 +2,14 @@
 #include <vector>
 #include <algorithm>
 
-// 文字列から指定したパターンの後の四桁の数値を抽出する関数
-std::string extractFourDigitNumberAfterPattern(const char* str, const char* pattern) {
+/// <summary>
+/// 個人番号を抽出する
+/// </summary>
+/// <param name="str">個人メールアドレス</param>
+/// <returns>個人番号</returns>
+std::string extractFourDigitNumber(const char* str) {
 	std::string s(str);
-	std::size_t found = s.find(pattern);
-
-	if (found != std::string::npos) {
-		// パターンの後にある四桁を抽出
-		return s.substr(found + strlen(pattern), 4);
-	}
-	else {
-		return ""; // パターンが見つからなかった場合は空文字列を返す
-	}
+	return s.substr(6, 4);
 }
 
 int main() {
@@ -44,15 +40,12 @@ int main() {
 		"k022g0031@g.neec.ac.jp", "k022g0076@g.neec.ac.jp", "k022g0002@g.neec.ac.jp", "k022g0090@g.neec.ac.jp", "k022g0074@g.neec.ac.jp",
 		"k022g0012@g.neec.ac.jp", "k022g0001@g.neec.ac.jp"
 	};
-	// 検索するパターン
-	const char* targetPattern = "k022g";
-
 	// 数値を格納するベクター
 	std::vector<std::string> extractedNumbers;
 
-	// 各要素から指定したパターンの後の四桁の数値を抽出
+	// 各要素から後ろの四桁の数値を抽出
 	for (const char* email : number) {
-		std::string extractedNumber = extractFourDigitNumberAfterPattern(email, targetPattern);
+		std::string extractedNumber = extractFourDigitNumber(email);
 
 		if (!extractedNumber.empty()) {
 			extractedNumbers.push_back(extractedNumber);
@@ -63,14 +56,17 @@ int main() {
 	std::sort(extractedNumbers.begin(), extractedNumbers.end());
 
 	// ソートされた数値と元のメールアドレスを表示
-	for (const std::string& num : extractedNumbers) {
-		auto it = std::find_if(number.begin(), number.end(),
-			[num, targetPattern](const char* email) {
-				return extractFourDigitNumberAfterPattern(email, targetPattern) == num;
+	for (size_t i = 0; i < extractedNumbers.size(); ++i) {
+		const std::string& num = extractedNumbers[i];
+		const char* email = number[i];
+
+		std::vector<const char*>::iterator it = std::find_if(number.begin(), number.end(),
+			[num](const char* email) {
+				return extractFourDigitNumber(email) == num;
 			});
 
 		if (it != number.end()) {
-			std::cout << *it << std::endl;
+			std::cout<< *it << std::endl;
 		}
 	}
     return 0;
