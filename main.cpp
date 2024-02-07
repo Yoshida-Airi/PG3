@@ -1,31 +1,37 @@
+#include <string>
+#include <chrono>
 #include <iostream>
-#include<thread>
-
-// 1を表示する関数
-void printOne() {
-	std::cout << "thread1\n";
-};
-
-// 2を表示する関数
-void printTwo() {
-	std::cout << "thread2\n";
-};
-
-// 3を表示する関数
-void printThree() {
-	std::cout << "thread3\n";
-};
-
+#include"windows.h"
 
 int main() {
 
-	// スレッドを作成して関数を実行
-	std::thread thread1(printOne);
-	thread1.join();
-	std::thread thread2(printTwo);
-	thread2.join();
-	std::thread thread3(printThree);
-	thread3.join();
+    SetConsoleOutputCP(65001);
 
-	return 0;
+    // 初期化
+    std::string a(100000, 'a');
+    std::string copy{};
+
+    // 計測開始時刻
+    auto start_copy = std::chrono::system_clock::now();
+    copy = a;
+    // 計測終了時刻
+    auto end_copy = std::chrono::system_clock::now();
+
+    // 計測結果を出力
+    std::chrono::duration<double, std::micro> result1 = end_copy - start_copy;
+
+    // 移動
+    auto start_move = std::chrono::system_clock::now();
+    std::string move{};
+    move = std::move(a);
+    auto end_move = std::chrono::system_clock::now();
+
+    // 計測結果を出力
+    std::chrono::duration<double, std::micro> result2 = end_move - start_move;
+
+    // 経過時間を表示
+    std::cout << "copy : " << result1.count() << "μs" << std::endl;
+    std::cout << "move　: " << result2.count() << "μs" << std::endl;
+
+    return 0;
 }
