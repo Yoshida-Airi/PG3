@@ -15,40 +15,22 @@ int rollDice(std::mt19937 randomEngine)
 }
 
 // コールバック関数の型定義
-typedef bool (*CallbackFunction)(int, int, int);
+typedef void (*CallbackFunction)(int, int);
 
-// ゲームのメイン関数
-void playGame(CallbackFunction callback,int time, std::mt19937 randomEngine) 
+void SetTimeout(CallbackFunction func, int time,int diceResult) {
+    std::this_thread::sleep_for(std::chrono::seconds(time));
+    func(time,diceResult);
+}
+
+
+// コールバック関数 出目とユーザーの選択を比較し、正誤を返す
+void checkGuess(int diceResult, int userChoice)
 {
-    int diceResult = rollDice(randomEngine); // サイコロを振る
-    std::cout << "サイコロを振りました。奇数か偶数か当ててください（奇数: 1, 偶数: 2）: ";
-
-    int userChoice;
-    std::cin >> userChoice;
-
-    // ランダムな出目とユーザーの選択をコールバック関数に渡し、結果を待つ
-    bool result = callback(diceResult, time, userChoice);
-
-
-
-    if (result) {
-        std::cout << "サイコロの出目 : " << diceResult << "\n" << "正解！\n" << std::endl;
+    if ((diceResult % 2 == 1 && userChoice == 1) || (diceResult % 2 == 0 && userChoice == 2)) {
+     std::cout << "サイコロの出目 : " << diceResult << "\n" << "正解！\n" << std::endl;
     }
     else {
         std::cout << "サイコロの出目 : " << diceResult << "\n" << "不正解！\n" << std::endl;
-    }
-}
-
-// コールバック関数 出目とユーザーの選択を比較し、正誤を返す
-bool checkGuess(int diceResult, int time, int userChoice)
-{
-    std::this_thread::sleep_for(std::chrono::seconds(time)); // 3秒待つ
-
-    if ((diceResult % 2 == 1 && userChoice == 1) || (diceResult % 2 == 0 && userChoice == 2)) {
-        return true; // 正解
-    }
-    else {
-        return false; // 不正解
     }
 }
 
@@ -61,7 +43,16 @@ int main(void)
     std::random_device seedGenerator;
     std::mt19937 randomEngine(seedGenerator());
 
-    playGame(checkGuess, 3, randomEngine);
+    int diceResult = rollDice(randomEngine); // サイコロを振る
+    std::cout << "サイコロを振りました。奇数か偶数か当ててください（奇数: 1, 偶数: 2）: ";
+
+    int userChoice;
+    std::cin >> userChoice;
+
+    CallbackFunction p;
+    p = checkGuess;
+
+    SetTimeout(p, 3,diceResult);
 
 	return 0;
 }
