@@ -27,7 +27,7 @@ void SetTimeout(CallbackFunction func, int time,int diceResult) {
 void checkGuess(int diceResult, int userChoice)
 {
     if ((diceResult % 2 == 1 && userChoice == 1) || (diceResult % 2 == 0 && userChoice == 2)) {
-     std::cout << "サイコロの出目 : " << diceResult << "\n" << "正解！\n" << std::endl;
+         std::cout << "サイコロの出目 : " << diceResult << "\n" << "正解！\n" << std::endl;
     }
     else {
         std::cout << "サイコロの出目 : " << diceResult << "\n" << "不正解！\n" << std::endl;
